@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- SEO Safe Demo Tag -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Young Upstarts | Voice of a New Generation</title>
+  <meta name="description" content="Young Upstarts — Stories, ideas, and thought leadership for startup entrepreneurs, small business owners, and intrapreneurs." />
+  <meta name="theme-color" content="#1E73BE" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Young Upstarts | Voice of a New Generation" />
+  <meta property="og:description" content="Stories and thought leadership for businesses small or large, entrepreneurs, and intrapreneurs." />
+  <meta property="og:image" content="/assets/logoyngup.png" />
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" sizes="32x32" />
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon.jpg" />
+
+  <!-- Official Young Upstarts Font: Montserrat + Open Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            /* Exact Young Upstarts Brand & Theme Colors (#1e73be, #00a8e8, #32373c, #f4f4f4) */
+            yu: {
+              cyan: '#00A8E8',      /* Official Logo Up-Arrow Cyan */
+              blue: '#1E73BE',      /* Official Site Theme Accent Blue */
+              blueDark: '#155A96',
+              charcoal: '#32373C',  /* Official Site Dark Charcoal */
+              dark: '#222222',
+              gray: '#666666',      /* Official Logo Subtitle Gray */
+              light: '#F4F4F4',     /* Official Site Section Background (#f4f4f4 / #f3f3f3) */
+              border: '#E6E6E6',    /* Official Site Divider Border (#e6e6e6) */
+            }
+          },
+          fontFamily: {
+            heading: ['Montserrat', 'sans-serif'],
+            sans: ['Open Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #222222;
+      color: #222222;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    /* Container-Query Support for Desktop, Tablet (iPad), and Mobile */
+    #app-stage {
+      container-type: inline-size;
+      container-name: stage;
+      background-color: #FFFFFF;
+      transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  margin 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.45s ease,
+                  box-shadow 0.45s ease;
+    }
+
+    #app-stage.preview-frame {
+      margin: 20px auto 80px auto;
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 0 8px #32373C;
+      overflow: hidden;
+    }
+
+    /* Reveal & Hover Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-100 { transition-delay: 80ms; }
+    .delay-200 { transition-delay: 160ms; }
+
+    .yu-card {
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+    .yu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -10px rgba(30, 115, 190, 0.14);
+      border-color: #00A8E8;
+    }
+
+    /* Navigation Active & Hover Underline (Upgraded Newsmag Style 9) */
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 0.85rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #32373C;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0.85rem;
+      right: 0.85rem;
+      height: 3px;
+      background-color: #00A8E8;
+      transform: scaleX(0);
+      transition: transform 0.22s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      color: #1E73BE;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      transform: scaleX(1);
+    }
+
+    /* Contact Dropdown */
+    .nav-dropdown-wrap:hover .nav-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .nav-dropdown {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px);
+      transition: all 0.2s ease;
+    }
+
+    /* ============================================================================
+       CONTAINER-QUERY RESPONSIVE GRIDS (Mobile <700px | Tablet 700–1023px | Desktop 1024px+)
+       ============================================================================ */
+    .nav-desktop { display: none; }
+    .nav-mobile-btn { display: flex; }
+    .mobile-bottom-bar { display: flex; }
+    .stage-pad-bottom { padding-bottom: 4.5rem; }
+
+    .hero-bento {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .interviews-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .partner-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    /* SMALL TABLET (560px+) */
+    @container stage (min-width: 560px) {
+      .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .interviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* TABLET FORMAT (700px – 1023px) */
+    @container stage (min-width: 700px) {
+      .nav-desktop { display: flex; }
+      .nav-mobile-btn { display: none !important; }
+      .mobile-bottom-bar { display: none !important; }
+      .stage-pad-bottom { padding-bottom: 0; }
+
+      .hero-bento {
+        grid-template-columns: 7fr 5fr;
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+      .partner-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+    }
+
+    /* DESKTOP FORMAT (1024px+) */
+    @container stage (min-width: 1024px) {
+      .hero-bento {
+        grid-template-columns: 7fr 5fr;
+        gap: 1.75rem;
+      }
+      .articles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .interviews-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+      }
+      .partner-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <div id="app-stage" class="stage-pad-bottom w-full mx-auto">
+
+    <!-- ================= TOP BRAND ACCENT LINE & SOCIAL BAR ================= -->
+    <div class="h-1 w-full bg-gradient-to-r from-yu-blue via-yu-cyan to-yu-blue"></div>
+    <div class="bg-yu-charcoal text-white text-xs py-2 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="px-2 py-0.5 rounded bg-yu-cyan text-white font-heading font-bold text-[10px] uppercase tracking-wider">Voice of a New Generation</span>
+          <span class="hidden sm:inline text-gray-300 text-[11px]">Stories & Thought Leadership for Entrepreneurs, Startups & Intrapreneurs</span>
+        </div>
+        <div class="flex items-center gap-4 text-[11px] font-medium text-gray-200">
+          <a href="mailto:administrator@youngupstarts.com" class="hover:text-yu-cyan flex items-center gap-1 transition" title="Mail">
+            <span>✉ administrator@youngupstarts.com</span>
+          </a>
+          <a href="https://twitter.com/youngupstarts" target="_blank" rel="noopener" class="hover:text-yu-cyan transition" title="Twitter">
+            <span>𝕏 @youngupstarts</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= OFFICIAL YOUNG UPSTARTS HEADER (UPGRADED STYLE 9) ================= -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-yu-border shadow-xs">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+
+        <!-- Official Logo (Fixed from broken wpengine staging URL) -->
+        <a href="#" class="flex items-center shrink-0 py-2">
+          <img src="assets/logoyngup.png" alt="Young Upstarts — Voice of a New Generation" class="h-10 sm:h-12 w-auto object-contain" />
+        </a>
+
+        <!-- Official Menu Structure (Home | Articles | About | Contact + Guest Post Guidelines | Affiliate Policy) -->
+        <nav class="nav-desktop items-center h-full">
+          <a href="#" class="nav-link active">Home</a>
+          <a href="#latest" class="nav-link">Articles</a>
+          <a href="#interviews" class="nav-link">Interviews</a>
+          <a href="#about" class="nav-link">About</a>
+
+          <!-- Contact with Official Sub-Menu Dropdown -->
+          <div class="relative h-full flex items-center nav-dropdown-wrap">
+            <a href="#collaborate" class="nav-link gap-1">
+              <span>Contact</span>
+              <svg class="w-3.5 h-3.5 text-yu-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="nav-dropdown absolute top-full left-0 w-72 bg-white border border-yu-border rounded-b-xl shadow-xl py-2 z-50 border-t-2 border-t-yu-cyan">
+              <button type="button" onclick="openModal('guest')" class="w-full text-left px-4 py-2.5 text-xs font-heading font-semibold text-yu-charcoal hover:bg-yu-light hover:text-yu-blue transition block">
+                Guidelines For Guest Post Submissions
+              </button>
+              <button type="button" onclick="openModal('sponsor')" class="w-full text-left px-4 py-2.5 text-xs font-heading font-semibold text-yu-charcoal hover:bg-yu-light hover:text-yu-blue transition block">
+                Advertise / Request Media Kit
+              </button>
+              <button type="button" onclick="openModal('pitch')" class="w-full text-left px-4 py-2.5 text-xs font-heading font-semibold text-yu-charcoal hover:bg-yu-light hover:text-yu-blue transition block">
+                Pitch Startup / Product Review
+              </button>
+            </div>
+          </div>
+
+          <a href="#partners" class="nav-link">Affiliate Policy</a>
+        </nav>
+
+        <!-- Search Toggle + Guest Post CTA -->
+        <div class="nav-desktop items-center gap-2.5 shrink-0">
+          <button type="button" onclick="toggleSearch()" aria-label="Search articles" class="w-10 h-10 rounded-full bg-yu-light hover:bg-yu-cyan hover:text-white text-yu-charcoal flex items-center justify-center transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+          </button>
+          <button type="button" onclick="openModal('guest')" class="px-4 py-2.5 rounded bg-yu-blue hover:bg-yu-cyan text-white font-heading text-xs font-bold uppercase tracking-wider transition shadow-xs">
+            Submit Guest Post
+          </button>
+        </div>
+
+        <!-- Mobile Menu & Search Buttons (<700px) -->
+        <div class="nav-mobile-btn items-center gap-2">
+          <button type="button" onclick="toggleSearch()" aria-label="Search" class="w-10 h-10 rounded bg-yu-light text-yu-charcoal flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+          </button>
+          <button type="button" onclick="toggleMobileMenu()" aria-label="Menu" class="w-10 h-10 rounded bg-yu-charcoal text-white flex items-center justify-center">
+            <svg id="m-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16"/></svg>
+            <svg id="m-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Expandable Live Search Drawer -->
+      <div id="search-drawer" class="hidden bg-yu-light border-t border-yu-border px-4 sm:px-6 py-3">
+        <div class="max-w-6xl mx-auto flex items-center gap-3">
+          <input id="search-input" type="search" oninput="searchArticles(this.value)" placeholder="Search Young Upstarts articles (e.g., AI, Cash Flow, Marketing, Interviews)..." class="w-full px-4 py-2.5 rounded bg-white border border-yu-border text-sm focus:outline-none focus:border-yu-blue" />
+          <button type="button" onclick="toggleSearch()" class="px-3 py-2 text-xs font-heading font-bold uppercase text-yu-gray hover:text-yu-charcoal">Close</button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Drawer (Matching Official Menu) -->
+      <div id="mobile-menu" class="hidden bg-yu-charcoal text-white border-b border-gray-700 px-4 pt-3 pb-5 space-y-2">
+        <a href="#" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded font-heading text-xs font-bold uppercase tracking-wider bg-white/10">Home</a>
+        <a href="#latest" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded font-heading text-xs font-bold uppercase tracking-wider hover:bg-white/10">Articles</a>
+        <a href="#interviews" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded font-heading text-xs font-bold uppercase tracking-wider hover:bg-white/10">Founder Interviews</a>
+        <a href="#about" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded font-heading text-xs font-bold uppercase tracking-wider hover:bg-white/10">About</a>
+        <a href="#collaborate" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded font-heading text-xs font-bold uppercase tracking-wider hover:bg-white/10">Contact & Guest Post Guidelines</a>
+        <a href="#partners" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded font-heading text-xs font-bold uppercase tracking-wider hover:bg-white/10">Affiliate Policy</a>
+        <div class="pt-2">
+          <button type="button" onclick="toggleMobileMenu(); openModal('guest');" class="w-full py-3 rounded bg-yu-cyan text-white font-heading text-xs font-bold uppercase tracking-wider">
+            Submit Guest Post / Advertise
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= HERO FEATURED GRID (CLEAN NEWSMAG UPGRADE) ================= -->
+    <section class="py-8 sm:py-10 px-4 sm:px-6 bg-yu-light border-b border-yu-border">
+      <div class="max-w-6xl mx-auto hero-bento">
+
+        <!-- Left: Lead Feature Story -->
+        <a href="https://www.youngupstarts.com/2026/11/01/the-voices-in-your-head/" target="_blank" rel="noopener" class="group relative rounded-xl overflow-hidden bg-yu-charcoal text-white min-h-[340px] sm:min-h-[410px] flex flex-col justify-end p-6 sm:p-8 shadow-md yu-card border border-yu-border reveal visible">
+          <img src="https://www.youngupstarts.com/wp-content/uploads/2024/05/employee-stress.jpg" alt="The Voices In Your Head" class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:scale-105 transition duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent"></div>
+
+          <div class="relative z-10 space-y-2.5">
+            <div class="flex items-center gap-2.5 text-xs">
+              <span class="px-2.5 py-1 bg-yu-cyan text-white font-heading font-bold uppercase tracking-wider text-[10px]">Thinking Aloud</span>
+              <span class="text-gray-300 font-medium">November 1, 2026</span>
+            </div>
+            <h1 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white group-hover:text-yu-cyan transition">
+              The Voices In Your Head
+            </h1>
+            <p class="text-xs sm:text-sm text-gray-200 max-w-xl leading-relaxed">
+              How startup founders, business owners, and intrapreneurs manage self-doubt, pressure, and high-stakes decisions on the path to growth.
+            </p>
+            <div class="pt-1 inline-flex items-center gap-1.5 font-heading text-xs font-bold uppercase tracking-wider text-yu-cyan">
+              <span>Read Full Article</span>
+              <span class="group-hover:translate-x-1 transition">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Right: Trending & Editor's Picks Box -->
+        <div class="bg-white rounded-xl p-6 border border-yu-border flex flex-col justify-between shadow-xs reveal delay-100 visible">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b-2 border-yu-blue">
+              <span class="font-heading text-xs font-extrabold uppercase tracking-wider text-yu-blue">Trending on Young Upstarts</span>
+              <span class="text-[11px] font-semibold text-yu-gray">13,144+ Posts</span>
+            </div>
+
+            <div class="divide-y divide-yu-border mt-2">
+              <a href="https://www.youngupstarts.com/2026/10/31/time-smart-membership-intake-forms-how-small-communities-can-use-ai-powered-forms-to-screen-applicants-in-real-time/" target="_blank" rel="noopener" class="block py-3.5 group">
+                <span class="text-[10px] font-heading font-bold uppercase tracking-wider text-yu-cyan">AI & Operations • Oct 31, 2026</span>
+                <h2 class="font-heading text-sm sm:text-base font-bold text-yu-dark group-hover:text-yu-blue transition leading-snug mt-0.5">
+                  Time Smart Membership Intake Forms: How Small Communities Can Use AI-Powered Forms
+                </h2>
+              </a>
+
+              <a href="https://www.youngupstarts.com/2026/10/30/the-human-edge-smarter-decisions-in-the-age-of-ai/" target="_blank" rel="noopener" class="block py-3.5 group">
+                <span class="text-[10px] font-heading font-bold uppercase tracking-wider text-yu-blue">Thinking Aloud • Oct 30, 2026</span>
+                <h2 class="font-heading text-sm sm:text-base font-bold text-yu-dark group-hover:text-yu-blue transition leading-snug mt-0.5">
+                  The Human Edge: Smarter Decisions In The Age Of AI
+                </h2>
+              </a>
+
+              <a href="https://www.youngupstarts.com/2026/10/27/hiring-for-contribution-not-just-credentials/" target="_blank" rel="noopener" class="block py-3.5 group">
+                <span class="text-[10px] font-heading font-bold uppercase tracking-wider text-yu-blue">Professionalisms • Oct 27, 2026</span>
+                <h2 class="font-heading text-sm sm:text-base font-bold text-yu-dark group-hover:text-yu-blue transition leading-snug mt-0.5">
+                  Hiring For Contribution, Not Just Credentials
+                </h2>
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3.5 border-t border-yu-border flex items-center justify-between gap-2">
+            <span class="text-xs font-medium text-yu-gray">Want to contribute or sponsor a post?</span>
+            <button type="button" onclick="openModal('guest')" class="px-3.5 py-2 rounded bg-yu-charcoal hover:bg-yu-blue text-white font-heading text-[11px] font-bold uppercase tracking-wider transition shrink-0">
+              Guidelines →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= LATEST ARTICLES + CATEGORY FILTER ================= -->
+    <section id="latest" class="py-12 sm:py-14 px-4 sm:px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 mb-8 border-b-2 border-yu-border reveal">
+          <div>
+            <span class="font-heading text-xs font-bold uppercase tracking-widest text-yu-cyan">Ideas & Innovation</span>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-yu-charcoal mt-1">Latest Articles</h2>
+          </div>
+
+          <!-- Official Category Filter Tabs -->
+          <div class="flex flex-wrap items-center gap-1.5 font-heading text-xs font-bold uppercase tracking-wider">
+            <button type="button" onclick="filterCategory('all')" id="cat-all" class="px-3.5 py-2 rounded bg-yu-blue text-white transition">All</button>
+            <button type="button" onclick="filterCategory('ai')" id="cat-ai" class="px-3.5 py-2 rounded bg-yu-light text-yu-charcoal hover:bg-yu-cyan hover:text-white transition">Thinking Aloud & AI</button>
+            <button type="button" onclick="filterCategory('finance')" id="cat-finance" class="px-3.5 py-2 rounded bg-yu-light text-yu-charcoal hover:bg-yu-cyan hover:text-white transition">Finance & Cash Flow</button>
+            <button type="button" onclick="filterCategory('growth')" id="cat-growth" class="px-3.5 py-2 rounded bg-yu-light text-yu-charcoal hover:bg-yu-cyan hover:text-white transition">Professionalisms</button>
+          </div>
+        </div>
+
+        <div class="articles-grid" id="articles-container">
+
+          <article data-cat="ai" class="rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal">
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="https://www.youngupstarts.com/wp-content/uploads/2021/02/black-man-at-desk-with-laptop.jpeg" alt="AI Membership Forms" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-blue text-white font-heading text-[10px] font-bold uppercase tracking-wider">AI & Tech</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">October 31, 2026 • By Contributor</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="https://www.youngupstarts.com/2026/10/31/time-smart-membership-intake-forms-how-small-communities-can-use-ai-powered-forms-to-screen-applicants-in-real-time/" target="_blank" rel="noopener" class="hover:text-yu-blue transition">
+                    Time Smart Membership Intake Forms: How Small Communities Can Use AI-Powered Forms To Screen Applicants In Real Time
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                  How small communities and organizations use AI-powered workflows to qualify applicants automatically.
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="https://www.youngupstarts.com/2026/10/31/time-smart-membership-intake-forms-how-small-communities-can-use-ai-powered-forms-to-screen-applicants-in-real-time/" target="_blank" rel="noopener">→</a>
+            </div>
+          </article>
+
+          <article data-cat="finance" class="rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal delay-100">
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="https://www.youngupstarts.com/wp-content/uploads/2019/11/invoices-credit-collection.jpg" alt="Cash Flow Protection" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-blue text-white font-heading text-[10px] font-bold uppercase tracking-wider">Cash Flow</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">October 31, 2026 • By Contributor</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="https://www.youngupstarts.com/2026/10/31/how-australian-businesses-can-protect-cash-flow-when-customers-pay-late/" target="_blank" rel="noopener" class="hover:text-yu-blue transition">
+                    How Australian Businesses Can Protect Cash Flow When Customers Pay Late
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                  Practical invoicing, credit control, and working-capital strategies to keep SMEs resilient during slow payment cycles.
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="https://www.youngupstarts.com/2026/10/31/how-australian-businesses-can-protect-cash-flow-when-customers-pay-late/" target="_blank" rel="noopener">→</a>
+            </div>
+          </article>
+
+          <article data-cat="growth" class="rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal delay-200">
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="https://www.youngupstarts.com/wp-content/uploads/2022/03/SEO-online-marketing.jpeg" alt="Startup Marketing" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-cyan text-white font-heading text-[10px] font-bold uppercase tracking-wider">Marketing</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">October 30, 2026 • By Contributor</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="https://www.youngupstarts.com/2026/10/30/why-startups-should-stop-treating-internet-marketing-as-an-afterthought/" target="_blank" rel="noopener" class="hover:text-yu-blue transition">
+                    Why Startups Should Stop Treating Internet Marketing As An Afterthought
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                  Building distribution, organic search visibility, and customer acquisition into your startup from day one.
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="https://www.youngupstarts.com/2026/10/30/why-startups-should-stop-treating-internet-marketing-as-an-afterthought/" target="_blank" rel="noopener">→</a>
+            </div>
+          </article>
+
+          <article data-cat="ai" class="rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal">
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="https://www.youngupstarts.com/wp-content/uploads/2019/06/artificial-intelligence.jpg" alt="Smarter Decisions in AI" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-blue text-white font-heading text-[10px] font-bold uppercase tracking-wider">Thinking Aloud</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">October 30, 2026 • By Contributor</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="https://www.youngupstarts.com/2026/10/30/the-human-edge-smarter-decisions-in-the-age-of-ai/" target="_blank" rel="noopener" class="hover:text-yu-blue transition">
+                    The Human Edge: Smarter Decisions In The Age Of AI
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                  Why human judgment, context, and ethics remain the ultimate competitive advantage alongside automation.
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="https://www.youngupstarts.com/2026/10/30/the-human-edge-smarter-decisions-in-the-age-of-ai/" target="_blank" rel="noopener">→</a>
+            </div>
+          </article>
+
+          <article data-cat="finance" class="rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal delay-100">
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="https://www.youngupstarts.com/wp-content/uploads/2024/09/cute-piggy-bank.jpg" alt="UGMA Account" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-blue text-white font-heading text-[10px] font-bold uppercase tracking-wider">Investing</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">October 30, 2026 • By Contributor</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="https://www.youngupstarts.com/2026/10/30/what-is-a-ugma-account-an-easy-way-to-start-investing-for-your-kids/" target="_blank" rel="noopener" class="hover:text-yu-blue transition">
+                    What Is A UGMA Account? An Easy Way To Start Investing For Your Kids
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                  A straightforward breakdown for business owners and parents looking to build generational financial literacy.
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="https://www.youngupstarts.com/2026/10/30/what-is-a-ugma-account-an-easy-way-to-start-investing-for-your-kids/" target="_blank" rel="noopener">→</a>
+            </div>
+          </article>
+
+          <article data-cat="growth" class="rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal delay-200">
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="https://www.youngupstarts.com/wp-content/uploads/2022/04/calculator-business-accounting.jpg" alt="Recognize Opportunity" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-cyan text-white font-heading text-[10px] font-bold uppercase tracking-wider">Professionalisms</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">October 27, 2026 • By Contributor</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="https://www.youngupstarts.com/2026/10/27/a-better-way-to-recognize-opportunity/" target="_blank" rel="noopener" class="hover:text-yu-blue transition">
+                    A Better Way To Recognize Opportunity
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                  How seasoned founders evaluate new markets, filter out noise, and spot high-leverage business opportunities.
+                </p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="https://www.youngupstarts.com/2026/10/27/a-better-way-to-recognize-opportunity/" target="_blank" rel="noopener">→</a>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Live WordPress Archive Loader (Connects to all 13,144+ blogs) -->
+        <div class="mt-8 text-center">
+          <button type="button" id="load-more-btn" onclick="loadMoreArticles()" class="px-6 py-3 rounded bg-yu-light hover:bg-yu-blue text-yu-charcoal hover:text-white border border-yu-border font-heading text-xs font-bold uppercase tracking-wider transition shadow-xs">
+            Load More Articles (13,144+ in WordPress Archive) ↓
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOUNDER INTERVIEWS BY DANIEL GOH ================= -->
+    <section id="interviews" class="py-12 sm:py-14 px-4 sm:px-6 bg-yu-charcoal text-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 mb-8 border-b border-gray-700 reveal">
+          <div>
+            <span class="font-heading text-xs font-bold uppercase tracking-widest text-yu-cyan">Interviews • By Daniel Goh</span>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-white mt-1">Founder & Executive Q&As</h2>
+          </div>
+          <a href="https://www.youngupstarts.com/category/interviews/" target="_blank" rel="noopener" class="font-heading text-xs font-bold uppercase tracking-wider text-yu-cyan hover:underline">
+            View All 102 Interviews →
+          </a>
+        </div>
+
+        <div class="interviews-grid">
+          <a href="https://www.youngupstarts.com/2026/02/20/interview-benjamin-chen-on-how-to-apply-martial-arts-principles-to-business-and-life/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-yu-dark border border-gray-700 flex flex-col justify-between yu-card reveal">
+            <div>
+              <img src="https://www.youngupstarts.com/wp-content/uploads/2026/02/benjamin-chen-from-the-mat.jpg" alt="Benjamin Chen" class="w-full h-36 object-cover rounded-lg mb-3" />
+              <span class="font-heading text-[10px] font-bold uppercase tracking-wider text-yu-cyan">Interviews</span>
+              <h3 class="font-heading text-sm sm:text-base font-bold text-white mt-1 leading-snug">
+                [Interview] Benjamin Chen On How To Apply Martial Arts Principles To Business And Life
+              </h3>
+            </div>
+            <span class="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-800">By Daniel Goh →</span>
+          </a>
+
+          <a href="https://www.youngupstarts.com/2025/01/28/interview-joseph-rallo-co-founder-of-ef-hutton/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-yu-dark border border-gray-700 flex flex-col justify-between yu-card reveal delay-100">
+            <div>
+              <img src="https://www.youngupstarts.com/wp-content/uploads/2025/01/Joseph-T-Rallo-of-EF-Hutton.jpg" alt="Joseph Rallo" class="w-full h-36 object-cover rounded-lg mb-3" />
+              <span class="font-heading text-[10px] font-bold uppercase tracking-wider text-yu-cyan">Interviews</span>
+              <h3 class="font-heading text-sm sm:text-base font-bold text-white mt-1 leading-snug">
+                [Interview] Joseph Rallo, Co-Founder Of EF Hutton
+              </h3>
+            </div>
+            <span class="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-800">By Daniel Goh →</span>
+          </a>
+
+          <a href="https://www.youngupstarts.com/2024/08/27/interview-margot-machol-bisnow-on-how-to-raise-an-entrepreneur/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-yu-dark border border-gray-700 flex flex-col justify-between yu-card reveal delay-200">
+            <div>
+              <img src="https://www.youngupstarts.com/wp-content/uploads/2024/08/Margot-Machol-Bisnow.jpg" alt="Margot Machol Bisnow" class="w-full h-36 object-cover rounded-lg mb-3" />
+              <span class="font-heading text-[10px] font-bold uppercase tracking-wider text-yu-cyan">Interviews</span>
+              <h3 class="font-heading text-sm sm:text-base font-bold text-white mt-1 leading-snug">
+                [Interview] Margot Machol Bisnow On How To Raise An Entrepreneur
+              </h3>
+            </div>
+            <span class="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-800">By Daniel Goh →</span>
+          </a>
+
+          <a href="https://www.youngupstarts.com/2024/08/10/interview-karim-allana-founder-and-ceo-of-allana-buick-bers-abb/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-yu-dark border border-gray-700 flex flex-col justify-between yu-card reveal">
+            <div>
+              <img src="https://www.youngupstarts.com/wp-content/uploads/2024/08/karim-allana.jpg" alt="Karim Allana" class="w-full h-36 object-cover rounded-lg mb-3" />
+              <span class="font-heading text-[10px] font-bold uppercase tracking-wider text-yu-cyan">Interviews</span>
+              <h3 class="font-heading text-sm sm:text-base font-bold text-white mt-1 leading-snug">
+                [Interview] Karim Allana, Founder And CEO Of Allana Buick & Bers (ABB)
+              </h3>
+            </div>
+            <span class="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-800">By Daniel Goh →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT, GUEST POST GUIDELINES & ADVERTISING ================= -->
+    <section id="collaborate" class="py-12 sm:py-16 px-4 sm:px-6 bg-yu-light border-b border-yu-border">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-10 reveal">
+          <span class="font-heading text-xs font-bold uppercase tracking-widest text-yu-blue">Contact & Contribute</span>
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-yu-charcoal mt-1">Work With Young Upstarts</h2>
+          <p class="text-xs sm:text-sm text-yu-gray mt-2">
+            Reach startup founders, small business owners, and professionals across the <strong>United States, Singapore, the UK, and India</strong>.
+          </p>
+        </div>
+
+        <div class="partner-grid">
+          <!-- Guest Posts -->
+          <div class="p-6 rounded-xl bg-white border border-yu-border flex flex-col justify-between yu-card reveal">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-yu-light text-yu-blue font-heading text-[10px] font-bold uppercase tracking-wider">Guest Contributions</span>
+              <h3 class="font-heading text-lg sm:text-xl font-bold text-yu-charcoal mt-3.5">Guidelines For Guest Posts</h3>
+              <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                We welcome punchy 600–800 word articles (up to 2,000 words for deep insights) from subject-matter experts with full bio, head-shot, and LinkedIn profile.
+              </p>
+              <ul class="mt-4 space-y-1.5 text-xs text-yu-charcoal">
+                <li>✓ Target audience: SMBs, startups & tech pros</li>
+                <li>✓ Non-promotional expert thought leadership</li>
+                <li>✓ 1 relevant non-commercial attribution link</li>
+              </ul>
+            </div>
+            <button type="button" onclick="openModal('guest')" class="mt-6 w-full py-3 rounded bg-yu-charcoal hover:bg-yu-blue text-white font-heading text-xs font-bold uppercase tracking-wider transition">
+              Submit Guest Post →
+            </button>
+          </div>
+
+          <!-- Service Providers / Sponsored Posts -->
+          <div class="p-6 rounded-xl bg-yu-blue text-white border-2 border-yu-cyan flex flex-col justify-between shadow-lg yu-card reveal delay-100">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-yu-cyan text-white font-heading text-[10px] font-bold uppercase tracking-wider">Service Providers & Brands</span>
+              <h3 class="font-heading text-lg sm:text-xl font-bold text-white mt-3.5">Sponsor or Advertise</h3>
+              <p class="text-xs sm:text-sm text-blue-100 mt-2 leading-relaxed">
+                Provide services or software to small businesses and SMEs? Sponsor an article, request ad-free guest placement, or ask for our official Media Kit.
+              </p>
+              <ul class="mt-4 space-y-1.5 text-xs text-white">
+                <li>✓ 20-year established business publication</li>
+                <li>✓ Sponsored post & banner options available</li>
+                <li>✓ Direct contact: administrator@youngupstarts.com</li>
+              </ul>
+            </div>
+            <button type="button" onclick="openModal('sponsor')" class="mt-6 w-full py-3 rounded bg-white hover:bg-yu-cyan text-yu-blue hover:text-white font-heading text-xs font-bold uppercase tracking-wider transition shadow-xs">
+              Request Media Kit →
+            </button>
+          </div>
+
+          <!-- Startups & Product Reviews -->
+          <div class="p-6 rounded-xl bg-white border border-yu-border flex flex-col justify-between yu-card reveal delay-200">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-yu-light text-yu-blue font-heading text-[10px] font-bold uppercase tracking-wider">Startups & Reviews</span>
+              <h3 class="font-heading text-lg sm:text-xl font-bold text-yu-charcoal mt-3.5">Be Featured / Product Reviews</h3>
+              <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">
+                Own a startup or small business in Singapore or globally? We also review business books and products useful to mobile warriors and SMB owners.
+              </p>
+              <ul class="mt-4 space-y-1.5 text-xs text-yu-charcoal">
+                <li>✓ Startup & founder feature stories</li>
+                <li>✓ Business book & SaaS product reviews</li>
+                <li>✓ Based in Singapore with global readership</li>
+              </ul>
+            </div>
+            <button type="button" onclick="openModal('pitch')" class="mt-6 w-full py-3 rounded bg-yu-charcoal hover:bg-yu-blue text-white font-heading text-xs font-bold uppercase tracking-wider transition">
+              Pitch Your Story →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT & OFFICIAL AFFILIATE PARTNERS ================= -->
+    <section id="about" class="py-12 px-4 sm:px-6 bg-white">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- About -->
+        <div class="lg:col-span-6 space-y-3 reveal">
+          <span class="font-heading text-xs font-bold uppercase tracking-widest text-yu-blue">About Young Upstarts</span>
+          <h2 class="font-heading text-2xl font-extrabold text-yu-charcoal">Changing the World in Little Ways</h2>
+          <p class="text-xs sm:text-sm text-yu-gray leading-relaxed">
+            Here at <strong>Young Upstarts (@youngupstarts)</strong> we like to write about things that help change the world in little ways. Founded by <strong>Daniel Goh</strong> in 2006, we focus on stories and thought leadership pieces that help businesses small or large, entrepreneurs and intrapreneurs, or those who simply want to become better at what they do.
+          </p>
+          <p class="text-xs sm:text-sm text-yu-gray leading-relaxed">
+            Reach us directly at <a href="mailto:administrator@youngupstarts.com" class="text-yu-blue font-semibold underline">administrator@youngupstarts.com</a>.
+          </p>
+        </div>
+
+        <!-- Affiliate Policy & Official Partners -->
+        <div id="partners" class="lg:col-span-6 p-6 rounded-xl bg-yu-light border border-yu-border space-y-3 reveal delay-100">
+          <div class="flex items-center justify-between">
+            <span class="font-heading text-xs font-extrabold uppercase tracking-wider text-yu-charcoal">Official Affiliate Partners</span>
+            <a href="https://www.youngupstarts.com/partners/" target="_blank" rel="noopener" class="text-[11px] font-semibold text-yu-blue underline">Affiliate Policy →</a>
+          </div>
+          <p class="text-xs text-yu-gray leading-relaxed">
+            Some posts on this website contain links from our affiliate partners for which Young Upstarts may receive compensation:
+          </p>
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">AppSumo</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Awesomic</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Blogify</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">ClickUp</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Fiverr</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Fora Financial</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">HubSpot</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Klaviyo</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">NordVPN</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Notion Business</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">SafetyWing</span>
+            <span class="px-2.5 py-1 rounded bg-white border border-yu-border text-[11px] font-semibold text-yu-charcoal">Square</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-yu-charcoal text-gray-300 py-10 px-4 sm:px-6 border-t-4 border-yu-cyan">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div class="flex flex-col sm:flex-row items-center gap-3.5">
+          <img src="assets/logoyngup.png" alt="Young Upstarts" class="h-9 w-auto bg-white rounded px-2.5 py-1" />
+          <div class="text-xs text-gray-300">
+            © 2006–2026 Young Upstarts. All rights reserved. • <a href="mailto:administrator@youngupstarts.com" class="text-yu-cyan underline">administrator@youngupstarts.com</a>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 font-heading text-xs font-semibold uppercase tracking-wider text-gray-300">
+          <a href="#" class="hover:text-yu-cyan">Home</a>
+          <a href="#about" class="hover:text-yu-cyan">About</a>
+          <a href="#collaborate" class="hover:text-yu-cyan">Contact</a>
+          <a href="#partners" class="hover:text-yu-cyan">Affiliate Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================= MOBILE STICKY BAR (<700px) ================= -->
+    <div class="mobile-bottom-bar fixed bottom-0 inset-x-0 z-40 bg-yu-charcoal/95 backdrop-blur-md border-t border-gray-700 px-4 py-2.5 items-center gap-2.5">
+      <button type="button" onclick="openModal('guest')" class="flex-1 py-2.5 rounded bg-yu-blue text-white font-heading font-bold uppercase tracking-wider text-[11px]">
+        ✍️ Guest Post
+      </button>
+      <button type="button" onclick="openModal('sponsor')" class="flex-1 py-2.5 rounded bg-yu-cyan text-white font-heading font-bold uppercase tracking-wider text-[11px]">
+        📊 Media Kit & Ads
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ================= FLOATING VIEWPORT PREVIEW SWITCHER ================= -->
+  <div id="vp-switcher" class="hidden lg:flex fixed bottom-4 right-4 z-50 items-center gap-1 bg-yu-charcoal/95 backdrop-blur-md border border-gray-600 p-1.5 rounded-full shadow-2xl font-heading text-xs font-bold text-white">
+    <span class="px-2.5 text-[10px] text-yu-cyan uppercase tracking-wider">View:</span>
+    <button type="button" id="vp-desktop" onclick="setViewport('desktop')" class="px-3 py-1.5 rounded-full bg-yu-blue text-white transition">🖥️ Desktop</button>
+    <button type="button" id="vp-tablet" onclick="setViewport('tablet')" class="px-3 py-1.5 rounded-full hover:bg-gray-700 text-gray-200 transition">📟 Tablet (iPad)</button>
+    <button type="button" id="vp-mobile" onclick="setViewport('mobile')" class="px-3 py-1.5 rounded-full hover:bg-gray-700 text-gray-200 transition">📱 Mobile</button>
+    <button type="button" onclick="setViewport('desktop'); document.getElementById('vp-switcher').style.display='none';" title="Hide preview bar" class="ml-0.5 w-6 h-6 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white flex items-center justify-center">✕</button>
+  </div>
+
+  <!-- ================= CONTACT / GUEST POST / MEDIA KIT MODAL ================= -->
+  <div id="modal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl border border-yu-border shadow-2xl overflow-hidden max-h-[88vh] flex flex-col">
+      <div class="px-6 py-4 bg-yu-charcoal text-white flex items-center justify-between border-b-2 border-yu-cyan">
+        <div class="font-heading text-base sm:text-lg font-bold uppercase tracking-wider">Contact Young Upstarts</div>
+        <button type="button" onclick="closeModal()" class="w-8 h-8 rounded bg-white/10 text-white flex items-center justify-center text-sm font-bold hover:bg-yu-cyan">✕</button>
+      </div>
+
+      <div class="px-6 pt-4">
+        <div class="grid grid-cols-3 p-1 rounded bg-yu-light font-heading text-[11px] font-bold uppercase">
+          <button type="button" id="tab-guest" onclick="switchTab('guest')" class="py-2 rounded bg-yu-blue text-white shadow-xs transition">Guest Post</button>
+          <button type="button" id="tab-sponsor" onclick="switchTab('sponsor')" class="py-2 rounded text-yu-charcoal transition">Media Kit / Ads</button>
+          <button type="button" id="tab-pitch" onclick="switchTab('pitch')" class="py-2 rounded text-yu-charcoal transition">Startup Pitch</button>
+        </div>
+      </div>
+
+      <form id="modal-form" onsubmit="submitForm(event)" class="p-6 space-y-3.5 overflow-y-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input id="f-name" type="text" required placeholder="Your Name *" class="w-full px-4 py-3 rounded bg-yu-light border border-yu-border text-sm focus:outline-none focus:border-yu-blue" />
+          <input id="f-email" type="email" required placeholder="Work Email *" class="w-full px-4 py-3 rounded bg-yu-light border border-yu-border text-sm focus:outline-none focus:border-yu-blue" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input id="f-company" type="text" required placeholder="Company / Website *" class="w-full px-4 py-3 rounded bg-yu-light border border-yu-border text-sm focus:outline-none focus:border-yu-blue" />
+          <input id="f-linkedin" type="url" placeholder="LinkedIn Profile URL" class="w-full px-4 py-3 rounded bg-yu-light border border-yu-border text-sm focus:outline-none focus:border-yu-blue" />
+        </div>
+        <textarea id="f-notes" rows="3" required placeholder="Proposed article topic (600–800 words), sponsorship inquiry, or startup story *" class="w-full px-4 py-3 rounded bg-yu-light border border-yu-border text-sm focus:outline-none focus:border-yu-blue"></textarea>
+
+        <button type="submit" id="submit-btn" class="w-full py-3.5 rounded bg-yu-blue hover:bg-yu-cyan text-white font-heading font-bold uppercase tracking-wider text-xs transition shadow-md">
+          Submit Guest Post Pitch
+        </button>
+      </form>
+
+      <div id="modal-done" class="hidden p-8 text-center space-y-3.5">
+        <div class="w-12 h-12 rounded-full bg-yu-cyan text-white flex items-center justify-center text-xl mx-auto font-bold">✓</div>
+        <h4 class="font-heading text-xl font-bold text-yu-charcoal">Message Ready!</h4>
+        <p class="text-sm text-yu-gray">Click below to send directly to the Young Upstarts editorial team:</p>
+        <div class="pt-1">
+          <a id="direct-email-link" href="mailto:administrator@youngupstarts.com" class="inline-block px-6 py-3 rounded bg-yu-blue hover:bg-yu-cyan text-white font-heading text-xs font-bold uppercase tracking-wider transition shadow-sm">
+            ✉️ Email administrator@youngupstarts.com
+          </a>
+        </div>
+        <button type="button" onclick="closeModal()" class="block mx-auto mt-2 text-xs text-yu-gray underline">Close Window</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeTab = 'guest';
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function setViewport(mode) {
+      const stage = document.getElementById('app-stage');
+      ['desktop', 'tablet', 'mobile'].forEach(m => {
+        document.getElementById('vp-' + m).className = m === mode
+          ? 'px-3 py-1.5 rounded-full bg-yu-blue text-white transition'
+          : 'px-3 py-1.5 rounded-full hover:bg-gray-700 text-gray-200 transition';
+      });
+      if (mode === 'desktop') {
+        stage.style.maxWidth = '100%';
+        stage.classList.remove('preview-frame');
+      } else if (mode === 'tablet') {
+        stage.style.maxWidth = '820px';
+        stage.classList.add('preview-frame');
+      } else if (mode === 'mobile') {
+        stage.style.maxWidth = '390px';
+        stage.classList.add('preview-frame');
+      }
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+      document.getElementById('m-open').classList.toggle('hidden');
+      document.getElementById('m-close').classList.toggle('hidden');
+    }
+
+    function toggleSearch() {
+      const drawer = document.getElementById('search-drawer');
+      drawer.classList.toggle('hidden');
+      if (!drawer.classList.contains('hidden')) {
+        document.getElementById('search-input').focus();
+      }
+    }
+
+    function searchArticles(query) {
+      const q = query.toLowerCase().trim();
+      document.querySelectorAll('#articles-container article').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
+      });
+    }
+
+    function filterCategory(cat) {
+      ['all', 'ai', 'finance', 'growth'].forEach(c => {
+        document.getElementById('cat-' + c).className = c === cat
+          ? 'px-3.5 py-2 rounded bg-yu-blue text-white transition'
+          : 'px-3.5 py-2 rounded bg-yu-light text-yu-charcoal hover:bg-yu-cyan hover:text-white transition';
+      });
+      document.querySelectorAll('#articles-container article').forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+      });
+    }
+
+    function openModal(tab = 'guest') {
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal-form').classList.remove('hidden');
+      document.getElementById('modal-done').classList.add('hidden');
+      switchTab(tab);
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      ['guest', 'sponsor', 'pitch'].forEach(t => {
+        document.getElementById('tab-' + t).className = t === tab
+          ? 'py-2 rounded bg-yu-blue text-white shadow-xs transition'
+          : 'py-2 rounded text-yu-charcoal transition';
+      });
+      document.getElementById('submit-btn').textContent =
+        tab === 'guest' ? 'Submit Guest Post Pitch' :
+        (tab === 'sponsor' ? 'Request Media Kit & Sponsored Rates' : 'Pitch Startup / Book Review');
+    }
+
+    function submitForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('f-name').value.trim();
+      const email = document.getElementById('f-email').value.trim();
+      const company = document.getElementById('f-company').value.trim();
+      const linkedin = document.getElementById('f-linkedin').value.trim();
+      const notes = document.getElementById('f-notes').value.trim();
+      const label = activeTab === 'guest' ? 'GUEST POST SUBMISSION' : (activeTab === 'sponsor' ? 'MEDIA KIT & SPONSORSHIP' : 'STARTUP / REVIEW PITCH');
+      const subject = encodeURIComponent(`[Young Upstarts] ${label} — ${company}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCompany/Site: ${company}\nLinkedIn: ${linkedin || 'N/A'}\n\nDetails:\n${notes}`);
+      document.getElementById('direct-email-link').href = `mailto:administrator@youngupstarts.com?subject=${subject}&body=${body}`;
+      document.getElementById('modal-form').classList.add('hidden');
+      document.getElementById('modal-done').classList.remove('hidden');
+    }
+
+    let wpOffset = 7;
+    async function loadMoreArticles() {
+      const btn = document.getElementById('load-more-btn');
+      btn.textContent = 'Loading from WordPress Archive...';
+      btn.disabled = true;
+      try {
+        const res = await fetch(`https://www.youngupstarts.com/wp-json/wp/v2/posts?_embed&per_page=6&offset=${wpOffset}`);
+        const posts = await res.json();
+        const container = document.getElementById('articles-container');
+        posts.forEach(p => {
+          let img = 'https://www.youngupstarts.com/wp-content/uploads/2022/03/SEO-online-marketing.jpeg';
+          try { img = p._embedded['wp:featuredmedia'][0].source_url; } catch (e) {}
+          let catName = 'Business';
+          try { catName = p._embedded['wp:term'][0][0].name; } catch (e) {}
+          const dateStr = new Date(p.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+          const excerptClean = (p.excerpt?.rendered || '').replace(/<[^>]+>/g, '').slice(0, 125) + '...';
+          const article = document.createElement('article');
+          article.dataset.cat = 'growth';
+          article.className = 'rounded-xl bg-white border border-yu-border overflow-hidden flex flex-col justify-between yu-card reveal visible';
+          article.innerHTML = `
+            <div>
+              <div class="aspect-[16/10] bg-yu-charcoal overflow-hidden relative">
+                <img src="${img}" alt="" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                <span class="absolute bottom-0 left-0 px-3 py-1 bg-yu-blue text-white font-heading text-[10px] font-bold uppercase tracking-wider">${catName}</span>
+              </div>
+              <div class="p-5">
+                <div class="text-[11px] font-semibold text-yu-gray">${dateStr} • By Young Upstarts</div>
+                <h3 class="font-heading text-base sm:text-lg font-bold text-yu-dark mt-1.5 leading-snug">
+                  <a href="${p.link}" target="_blank" rel="noopener" class="hover:text-yu-blue transition">${p.title.rendered}</a>
+                </h3>
+                <p class="text-xs sm:text-sm text-yu-gray mt-2 leading-relaxed">${excerptClean}</p>
+              </div>
+            </div>
+            <div class="px-5 pb-4 pt-2 border-t border-yu-light flex items-center justify-between font-heading text-xs font-bold text-yu-blue">
+              <span>Read More</span>
+              <a href="${p.link}" target="_blank" rel="noopener">→</a>
+            </div>
+          `;
+          container.appendChild(article);
+        });
+        wpOffset += 6;
+        btn.textContent = 'Load More Articles (13,144+ in WordPress Archive) ↓';
+        btn.disabled = false;
+      } catch (err) {
+        window.open('https://www.youngupstarts.com/articles/', '_blank');
+        btn.textContent = 'Explore Full 13,144+ Archive →';
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
