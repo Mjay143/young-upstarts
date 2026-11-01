@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Live Outreach Visit Tracker | Michael Jay Juan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #0B0F19; color: #F8FAFC; }
+    @keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(1.25); } }
+    .live-dot { animation: pulseDot 1.8s infinite; }
+  </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+  <div class="max-w-5xl mx-auto space-y-6">
+
+    <!-- Header -->
+    <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot"></span>
+          <span>REAL-TIME MOCKUP VISIT RADAR ACTIVE</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-2">Client Mockup Visit Tracker</h1>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">
+          Automatically logs every time a prospect opens your live GitHub Pages mockups (Middletown Mutt Mansion, Young Upstarts, and future pitches).
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="sendTestPing()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition">
+          ⚡ Send Test Visit
+        </button>
+        <button onclick="loadHistory()" class="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-xs font-bold text-white transition">
+          🔄 Refresh Feed
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Counters -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Mockup Opens</div>
+        <div id="stat-total" class="text-3xl font-extrabold text-white mt-1">0</div>
+      </div>
+      <div class="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-500/30">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">🔥 Overseas Client Opens (US / SG)</div>
+        <div id="stat-clients" class="text-3xl font-extrabold text-emerald-300 mt-1">0</div>
+      </div>
+      <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Monitored Mockups</div>
+        <div class="text-sm font-bold text-sky-400 mt-2 space-y-1">
+          <div>1. 🐾 Middletown Mutt Mansion (Brian)</div>
+          <div>2. 🚀 Young Upstarts (Daniel Goh)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2 text-xs font-bold">
+        <button onclick="setFilter('all')" id="flt-all" class="px-3.5 py-2 rounded-xl bg-sky-500 text-white">All Visits</button>
+        <button onclick="setFilter('client')" id="flt-client" class="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">🔥 Only Client Visits (Outside PH)</button>
+      </div>
+      <div id="status-text" class="text-xs text-slate-400">Listening for live visits...</div>
+    </div>
+
+    <!-- Live Feed List -->
+    <div id="events-list" class="space-y-3">
+      <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 text-center text-sm text-slate-400">
+        Loading visit history...
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const TOPIC = 'mjay143_outreach_tracker_2026';
+    let allEvents = [];
+    let currentFilter = 'all';
+
+    function parseEventLine(line) {
+      try {
+        const obj = JSON.parse(line);
+        if (obj.event !== 'message') return null;
+        let data = null;
+        try { data = JSON.parse(obj.message); } catch (e) {}
+        return {
+          id: obj.id,
+          time: obj.time * 1000,
+          title: obj.title || 'Mockup Activity',
+          raw: obj.message,
+          data: data
+        };
+      } catch (e) { return null; }
+    }
+
+    function renderEvents() {
+      const list = document.getElementById('events-list');
+      const valid = allEvents.filter(e => e.data && e.data.project);
+      const clientCount = valid.filter(e => e.data.isClient).length;
+
+      document.getElementById('stat-total').textContent = valid.length;
+      document.getElementById('stat-clients').textContent = clientCount;
+
+      const filtered = currentFilter === 'client'
+        ? valid.filter(e => e.data.isClient)
+        : valid;
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 text-center text-sm text-slate-400">
+          ${currentFilter === 'client' ? 'No overseas client opens recorded yet. As soon as Brian (US) or Daniel (Singapore) clicks your link, it will appear here!' : 'No mockup visits recorded yet.'}
+        </div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.slice().reverse().map(ev => {
+        const d = ev.data;
+        const dt = new Date(ev.time).toLocaleString();
+        const badge = d.isClient
+          ? `<span class="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[11px] font-bold">🔥 CLIENT VISIT (${d.countryCode || d.country})</span>`
+          : `<span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 text-[11px] font-semibold">🛠️ Your Preview (${d.countryCode || 'PH'})</span>`;
+
+        return `
+          <div class="p-5 rounded-2xl ${d.isClient ? 'bg-emerald-950/30 border-2 border-emerald-500/50' : 'bg-slate-900 border border-slate-800'} flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1.5">
+              <div class="flex flex-wrap items-center gap-2">
+                ${badge}
+                <span class="text-sm font-extrabold text-white">${d.project}</span>
+                <span class="text-xs text-slate-400">• Prospect: <strong>${d.owner || 'Owner'}</strong></span>
+              </div>
+              <div class="text-xs text-slate-300">
+                ${d.flag || '🌐'} <strong>${d.city}, ${d.region ? d.region + ', ' : ''}${d.country}</strong>
+                ${d.isp ? `<span class="text-slate-500"> (${d.isp})</span>` : ''}
+              </div>
+              <div class="text-[11px] text-slate-400">
+                💻 Device: ${d.device} • 🔗 Source: ${d.referrer}
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-xs font-bold text-sky-400">${dt}</div>
+              <a href="${d.url}" target="_blank" class="text-[11px] text-slate-400 underline hover:text-white">Open Page →</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      document.getElementById('flt-all').className = f === 'all'
+        ? 'px-3.5 py-2 rounded-xl bg-sky-500 text-white'
+        : 'px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300';
+      document.getElementById('flt-client').className = f === 'client'
+        ? 'px-3.5 py-2 rounded-xl bg-emerald-600 text-white'
+        : 'px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300';
+      renderEvents();
+    }
+
+    async function loadHistory() {
+      document.getElementById('status-text').textContent = 'Syncing history...';
+      try {
+        const res = await fetch(`https://ntfy.sh/${TOPIC}/json?poll=1&since=all`);
+        const text = await res.text();
+        const lines = text.trim().split('\n').filter(Boolean);
+        const parsed = lines.map(parseEventLine).filter(Boolean);
+        const ids = new Set();
+        allEvents = [];
+        parsed.forEach(p => {
+          if (!ids.has(p.id)) {
+            ids.add(p.id);
+            allEvents.push(p);
+          }
+        });
+        renderEvents();
+        document.getElementById('status-text').textContent = 'Live radar connected ✓';
+      } catch (e) {
+        document.getElementById('status-text').textContent = 'Error syncing feed';
+      }
+    }
+
+    async function sendTestPing() {
+      const geoRes = await fetch('https://ipwho.is/').catch(() => null);
+      const geo = geoRes ? await geoRes.json() : {};
+      const payload = {
+        project: 'Young Upstarts (Test)',
+        owner: 'Daniel Goh',
+        url: 'https://mjay143.github.io/young-upstarts/',
+        isClient: false,
+        city: geo.city || 'Manila',
+        region: geo.region || 'NCR',
+        country: geo.country || 'Philippines',
+        countryCode: geo.country_code || 'PH',
+        flag: (geo.flag && geo.flag.emoji) ? geo.flag.emoji : '🇵🇭',
+        isp: (geo.connection && geo.connection.isp) ? geo.connection.isp : '',
+        device: `Desktop (${window.innerWidth}x${window.innerHeight})`,
+        referrer: 'Tracker Dashboard Test',
+        ts: new Date().toISOString()
+      };
+      await fetch(`https://ntfy.sh/${TOPIC}`, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      setTimeout(loadHistory, 600);
+    }
+
+    // Live SSE Stream
+    const es = new EventSource(`https://ntfy.sh/${TOPIC}/sse`);
+    es.onmessage = (e) => {
+      const ev = parseEventLine(e.data);
+      if (ev && !allEvents.some(x => x.id === ev.id)) {
+        allEvents.push(ev);
+        renderEvents();
+      }
+    };
+
+    loadHistory();
+  </script>
+</body>
+</html>
