@@ -1,0 +1,39 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write
+  deployments: write
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Clear stuck deployment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST /repos/Mjay143/young-upstarts/pages/deployments/99a1a3be59f21912a447036c0d28f93ce29750d4/cancel || true
+          gh api -X POST /repos/Mjay143/young-upstarts/actions/runs/41288695339/force-cancel || true
+          gh api -X POST /repos/Mjay143/young-upstarts/actions/runs/41288695339/cancel || true
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
